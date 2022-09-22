@@ -1,12 +1,14 @@
 package crm.testcases;
 
 import crm.base.BaseSetup;
+import crm.common.helpers.CaptureHelpers;
 import crm.common.utilities.PropertiesHelper;
 import crm.pages.SignInPage;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.io.FileHandler;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -16,8 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 
-public class PropertiesTest {
-
+public class CaptureScreenTest {
     private WebDriver driver;
     private SignInPage signInPage;
 
@@ -34,7 +35,7 @@ public class PropertiesTest {
     public void signinCRM() throws IOException {
         signInPage = new SignInPage(driver);
         driver.get("https://app.hrsale.com/erp/login");
-
+        Assert.assertEquals(driver.getTitle(), "HRSALE | Log n");
         // Đọc data từ file properties
         signInPage.login(PropertiesHelper.getValue("email"),PropertiesHelper.getValue("password"));
     }
@@ -47,18 +48,7 @@ public class PropertiesTest {
         //passed = SUCCESS và failed = FAILURE
         if (ITestResult.FAILURE == result.getStatus()) {
             try {
-                // Tạo tham chiếu của TakesScreenshot
-                TakesScreenshot ts = (TakesScreenshot) driver;
-                // Gọi hàm capture screenshot - getScreenshotAs
-                File source = ts.getScreenshotAs(OutputType.FILE);
-                //Kiểm tra folder tồn tại. Nêu không thì tạo mới folder
-                File theDir = new File("./Screenshots/");
-                if (!theDir.exists()) {
-                    theDir.mkdirs();
-                }
-                // result.getName() lấy tên của test case xong gán cho tên File chụp màn hình
-                FileHandler.copy(source, new File("./Screenshots/" + result.getName() + ".png"));
-                System.out.println("Đã chụp màn hình: " + result.getName());
+                CaptureHelpers.captureScreenshot(driver, result.getName());
             } catch (Exception e) {
                 System.out.println("Exception while taking screenshot " + e.getMessage());
             }
@@ -72,3 +62,5 @@ public class PropertiesTest {
         driver.quit();
     }
 }
+
+
