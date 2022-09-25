@@ -23,12 +23,13 @@ public class CaptureScreenTest {
     private SignInPage signInPage;
 
     @BeforeClass
-    public void createDriver() {
+    public void createDriver() throws Exception {
         // Gọi hàm để khởi tạo file properties
         PropertiesHelper.loadAllFiles();
 
         // Đọc data từ file properties với key là "browser"
         driver = new BaseSetup().setupDriver(PropertiesHelper.getValue("browser"));
+        CaptureHelpers.startRecord("Test01");
     }
 
     @Test
@@ -56,10 +57,11 @@ public class CaptureScreenTest {
     }
 
     @AfterClass
-    public void closeDriver() throws InterruptedException {
+    public void closeDriver() throws Exception {
         Thread.sleep(2000);
         driver.close();
         driver.quit();
+        CaptureHelpers.stopRecord();
     }
 }
 
