@@ -1,6 +1,8 @@
 package crm.testcases;
 
 import crm.base.BaseSetup;
+import crm.base.TestListener;
+import crm.common.utilities.Log;
 import crm.common.utilities.PropertiesHelper;
 import crm.pages.SignInPage;
 import org.openqa.selenium.OutputType;
@@ -8,14 +10,12 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.io.FileHandler;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
 
+@Listeners(TestListener.class)
 public class PropertiesTest {
 
     private WebDriver driver;
@@ -32,6 +32,7 @@ public class PropertiesTest {
 
     @Test
     public void signinCRM() throws IOException {
+        Log.info("Đây là TC signinCRM");
         signInPage = new SignInPage(driver);
         driver.get("https://app.hrsale.com/erp/login");
 

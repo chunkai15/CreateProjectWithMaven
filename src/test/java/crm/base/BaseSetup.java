@@ -12,11 +12,11 @@ import org.testng.annotations.Parameters;
 
 public class BaseSetup {
 
-    private WebDriver driver;
+    private static WebDriver driver;
 
     static String driverPath = "resources/drivers/";
 
-    public WebDriver getDriver() {
+    public static WebDriver getDriver() {
         return driver;
     }
 
