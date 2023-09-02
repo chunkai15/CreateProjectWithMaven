@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import org.testng.annotations.Listeners;
 import org.testng.SkipException;
 
-@Listeners(TestListener.class)
 public class ListenerTC {
     private WebDriver driver;
     @BeforeClass

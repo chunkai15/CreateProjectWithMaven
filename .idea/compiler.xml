@@ -7,9 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CreateProjectWithMaven" />
         <module name="SeleniumMaven" />
+        <module name="JavaSeleniumMavenParallel23 - TTTN" />
         <module name="JavaSeleniumMaven" />
+        <module name="CreateProjectWithMaven" />
+        <module name="JavaSeleniumMavenParallel23" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

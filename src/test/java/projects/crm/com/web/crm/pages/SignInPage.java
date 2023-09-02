@@ -2,15 +2,14 @@ package projects.crm.com.web.crm.pages;
 
 import projects.crm.com.keyword.WebUI;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class SignInPage {
 
     //Login
     private String pageText = "Welcome to HRM System";
-    private By inputUsername = By.xpath("//input[@id='iusername']");
-    private By inputPassword = By.xpath("//input[@id='ipassword']");
-    private By buttonSignin = By.xpath("//button[@type='submit']");
+    private By inputUsername = By.xpath("//input[@id='email']");
+    private By inputPassword = By.xpath("//input[@id='password']");
+    private By buttonSignin = By.xpath("//button[normalize-space()='Sign in']");
     private By linkForgotPassword = By.xpath("//a[normalize-space()='Forgot password?']");
 
     //Forgot password
@@ -25,19 +24,19 @@ public class SignInPage {
     }
 
     public DashboardPage logIn(String email, String password){
-        WebUI.openURL("https://app.hrsale.com/erp/login");
+        WebUI.openURL("https://rise.fairsketch.com/signin");
         WebUI.waitForPageLoaded();
         //Assert.assertTrue(WebUI.verifyPageTitle(pageTitle), "Tiêu đề chưa đúng");
        // Assert.assertTrue(WebUI.verifyPageUrl(pageUrl), "URL chưa đúng");
-        WebUI.setText(inputUsername, email);
-        WebUI.setText(inputPassword, password);
+        /*WebUI.setText(inputUsername, email);
+        WebUI.setText(inputPassword, password);*/
         WebUI.clickElement(buttonSignin);
 
         return new DashboardPage();
     }
 
     public void loginWithUsernameInValid(String username, String password) {
-        WebUI.openURL("https://app.hrsale.com/erp/login");
+        WebUI.openURL("https://rise.fairsketch.com/signin");
         WebUI.setText(inputUsername, username);
         WebUI.setText(inputPassword, password);
         WebUI.clickElement(buttonSignin);
@@ -47,7 +46,7 @@ public class SignInPage {
     }
 
     public void loginWithPasswordInValid(String username, String password) {
-        WebUI.openURL("https://app.hrsale.com/erp/login");
+        WebUI.openURL("https://rise.fairsketch.com/signin");
         WebUI.setText(inputUsername, username);
         WebUI.setText(inputPassword, password);
         WebUI.clickElement(buttonSignin);
@@ -58,7 +57,7 @@ public class SignInPage {
     }
 
     public void resetPassword(String emailForgot) {
-        WebUI.openURL("https://app.hrsale.com/erp/login");
+        WebUI.openURL("https://rise.fairsketch.com/signin");
         WebUI.clickElement(linkForgotPassword);
         WebUI.setText(inputEmailForgotPassword, emailForgot);
         WebUI.clickElement(buttonReset);

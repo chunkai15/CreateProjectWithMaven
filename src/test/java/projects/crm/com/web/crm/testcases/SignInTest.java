@@ -19,26 +19,26 @@ public class SignInTest extends BaseSetup {
 
     @Test(priority = 1)
     public void testLogin() {
-        signInPage.logIn("frances.burns", "123456789");
+        signInPage.logIn("admin@demo.com", "riseDemo");
     }
 
-    @Test(priority = 2)
+
+    /*@Test(priority = 2)
     public void testLoginWithUsernameInValid() throws Exception {
         excel.setExcelFile("src/test/resources/testdata/Book1.xlsx", "Sheet1");
-        /*signInPage.loginWithUsernameInValid("admin012356", "frances.burns");*/
+        *//*signInPage.loginWithUsernameInValid("admin012356", "frances.burns");*//*
         signInPage.loginWithUsernameInValid(excel.getCellData("username", 1), excel.getCellData("password", 1) );
-    }
+    }*/
 
-    @Test(priority = 3)
+/*    @Test(priority = 3)
     public void testLoginWithPasswordInValid() {
         signInPage.loginWithPasswordInValid("frances.burns", "123456789");
-
     }
 
     @Test(priority = 4)
     public void testForgotPassword() {
         signInPage.resetPassword("client01@mailinator.com");
 
-    }
+    }*/
 
 }

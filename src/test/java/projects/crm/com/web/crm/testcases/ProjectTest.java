@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class ProjectTest {
+public class ProjectTest extends BaseSetup{
     private WebDriver driver;
     private SignInPage signInPage;
     private AddProjectPage addProjectPage;
@@ -64,10 +64,4 @@ public class ProjectTest {
         projectPage.checkSearchTableByColumn(2, "Demo Functional Testing");
     }
 
-    @AfterClass
-    public void tearDown() throws Exception {
-        Thread.sleep(2000);
-        driver.close();
-        driver.quit();
-    }
 }

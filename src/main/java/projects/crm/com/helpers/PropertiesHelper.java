@@ -12,12 +12,12 @@ public class PropertiesHelper {
     private static String linkFile;
     private static FileInputStream file;
     private static FileOutputStream out;
-    private static String relPropertiesFilePathDefault = "src/test/resources/configs.properties";
+    private static String relPropertiesFilePathDefault = "src/test/resources/config/configs.properties";
 
     public static Properties loadAllFiles() {
         LinkedList<String> files = new LinkedList<>();
         // Add tất cả file Properties vào đây theo mẫu
-        files.add("src/main/resources/configs.properties");
+        files.add("src/test/resources/config/configs.properties");
         files.add("src/main/resources/dataTest.properties");
 
         try {
@@ -34,6 +34,10 @@ public class PropertiesHelper {
         } catch (IOException ioe) {
             return new Properties();
         }
+    }
+
+    public static Properties getProperties() {
+        return properties;
     }
 
     public static void setFile(String relPropertiesFilePath) {

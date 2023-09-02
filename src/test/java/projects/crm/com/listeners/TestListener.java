@@ -3,14 +3,19 @@ package projects.crm.com.listeners;
 import com.aventstack.extentreports.Status;
 import projects.crm.com.report.AllureManager;
 import projects.crm.com.report.ExtentTestManager;
-import projects.crm.com.utils.Log;
 import projects.crm.com.helpers.CaptureHelpers;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import projects.crm.com.report.ExtentReportManager;
+import projects.crm.com.utils.LogUtils;
 
 public class TestListener implements ITestListener {
+
+    static int count_totalTCs;
+    static int count_passedTCs;
+    static int count_skippedTCs;
+    static int count_failedTCs;
 
     public String getTestName(ITestResult result) {
         return result.getTestName() != null ? result.getTestName() : result.getMethod().getConstructorOrMethod().getName();
@@ -31,25 +36,29 @@ public class TestListener implements ITestListener {
         System.out.println("Finish Suite: " + result.getEndDate());
         CaptureHelpers.stopRecord();
         ExtentReportManager.getExtentReports().flush(); //Kết thúc và thực thi xuất report ra file
+        //EmailSendUtils.sendEmail(count_totalTCs, count_passedTCs, count_failedTCs, count_skippedTCs);
 
     }
 
     @Override
     public void onTestStart(ITestResult result) {
+        count_totalTCs = count_totalTCs + 1;
         ExtentTestManager.saveToReport(getTestName(result), getTestDescription(result));
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        Log.info(result.getName() + " is pass.");
+        count_passedTCs = count_passedTCs + 1;
+        LogUtils.info(result.getName() + " is pass.");
         ExtentTestManager.logMessage(Status.PASS, result.getName() + " is passed.");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
+        count_failedTCs = count_failedTCs + 1;
         //System.out.println(result.getName() + " is fail.");
         CaptureHelpers.takeScreenshot(result); //Chụp màn hình khi Fail
-        Log.error(result.getName() + " is fail.");
+        LogUtils.error(result.getName() + " is fail.");
 
         //Extent Report
         ExtentTestManager.addScreenShot(result.getName());
@@ -62,6 +71,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
+        count_skippedTCs = count_skippedTCs + 1;
         System.out.println(result.getName() + " is skip.");
         ExtentTestManager.logMessage(Status.SKIP, result.getName() + " is skipped.");
     }

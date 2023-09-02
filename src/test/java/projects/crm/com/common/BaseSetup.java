@@ -1,20 +1,14 @@
 package projects.crm.com.common;
 
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 import projects.crm.com.driver.DriverManager;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.io.FileHandler;
 import org.testng.ITestResult;
 import projects.crm.com.listeners.TestListener;
-
-import java.io.File;
-import java.io.IOException;
 
 @Listeners(TestListener.class)
 public class BaseSetup {
@@ -27,6 +21,7 @@ public class BaseSetup {
     @BeforeMethod
     @Parameters({"browser"})
     public static void createDriver(@Optional("chrome") String browserName) {
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
         WebDriver driver = setupBrowser(browserName);
         DriverManager.setDriver(driver);
     }
@@ -53,64 +48,34 @@ public class BaseSetup {
 
     // Viết các hàm khởi chạy cho từng Browser đó
     private static WebDriver initChromeDriver() {
-        WebDriver driver;
         System.out.println("Launching Chrome browser...");
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         return driver;
     }
 
     private static WebDriver initEdgeDriver() {
-        WebDriver driver;
         System.out.println("Launching Edge browser...");
-        WebDriverManager.edgedriver().setup();
-        driver = new EdgeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         return driver;
     }
 
     private static WebDriver initFirefoxDriver() {
-        WebDriver driver;
         System.out.println("Launching Firefox browser...");
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         return driver;
     }
 
     @AfterMethod
-    public static void closeDriver(ITestResult result) {
-        //Chụp màn hình khi Fail
-        if (result.getStatus() == ITestResult.FAILURE) {
-
-            // Tạo tham chiếu của TakesScreenshot với driver hiện tại
-            TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
-// Gọi hàm capture screenshot - getScreenshotAs
-            File source = ts.getScreenshotAs(OutputType.FILE);
-//Kiểm tra folder tồn tại. Nêu không thì tạo mới folder
-            File theDir = new File("./Screenshots/");
-            if (!theDir.exists()) {
-                theDir.mkdirs();
-            }
-// result.getName() lấy tên của test case xong gán cho tên File chụp màn hình luôn
-            try {
-                FileHandler.copy(source, new File("./Screenshots/" + result.getName() + ".png"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println("Screenshot taken: " + result.getName());
-
-        }
-
-
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0)); //Reset timeout
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static void closeDriver(ITestResult iTestResult) {
         if (DriverManager.getDriver() != null) {
             DriverManager.quit();
         }
